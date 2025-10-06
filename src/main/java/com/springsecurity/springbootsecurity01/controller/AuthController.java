@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*", maxAge = 3600)
+
 public class AuthController {
 
     @Autowired
@@ -70,6 +71,8 @@ public class AuthController {
                     jwt,
                     user.getUserName(),
                     user.getEmail(),
+                    user.getDateCreated(),
+                    user.getLastUpdated(),
                     roles
             ));
 

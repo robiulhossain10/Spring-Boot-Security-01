@@ -33,13 +33,27 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
+                        // public auth endpoints
                         .requestMatchers("/api/auth/**").permitAll()
+                        // allow OTP endpoints without auth
+                        .requestMatchers("/api/otp/**").permitAll()
+                        // role-based endpoints
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        // swagger & docs
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // everything else requires authentication
                         .anyRequest().authenticated()
                 )
+//                .oauth2Login(oauth2 -> oauth2
+//                        .authorizationEndpoint(authorization -> authorization
+//                                .baseUri("/oauth2/authorization")
+//                        )
+//                        .redirectionEndpoint(redirection -> redirection
+//                                .baseUri("/login/oauth2/code/*")
+//                        )
+//                        .defaultSuccessUrl("/api/auth/oauth2/success", true)
+//                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -48,6 +62,9 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -1,4 +1,4 @@
-package com.abc.SpringBootSecqurityEx.config;
+package com.springsecurity.springbootsecurity01.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

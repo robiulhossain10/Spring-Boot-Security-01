@@ -7,16 +7,15 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "role") // PostgreSQL এ যদি টেবিলের নাম role থাকে, ঠিক আছে
+@Table(name = "role")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 public class Role {
 
-    // ভুল ছিল rollName → ঠিক করলাম roleName
     @Id
     @Column(name = "role_name", nullable = false, updatable = false)
     private String roleName;
@@ -26,9 +25,9 @@ public class Role {
 
     @CreatedDate
     @Column(name = "date_created", nullable = false, updatable = false)
-    private OffsetDateTime dateCreated;
+    private LocalDateTime dateCreated;
 
     @LastModifiedDate
     @Column(name = "last_updated", nullable = false)
-    private OffsetDateTime lastUpdated;
+    private LocalDateTime lastUpdated;
 }

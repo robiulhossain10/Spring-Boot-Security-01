@@ -1,8 +1,8 @@
 package com.springsecurity.springbootsecurity01.enums;
 
 public enum ERole {
-  ROLE_USER,
-  ROLE_MODERATOR,
-  ROLE_ADMIN,
-  ROLE_EMPLOYEE
+  USER,
+  MODERATOR,
+  ADMIN,
+  EMPLOYEE
 }

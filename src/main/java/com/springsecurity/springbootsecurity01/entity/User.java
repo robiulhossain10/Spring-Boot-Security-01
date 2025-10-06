@@ -7,14 +7,14 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-@Table(name = "\"user\"") // Escaped reserved word
+@Table(name = "\"user\"") // Escaped reserved word for PostgreSQL
 public class User {
 
     @Id
@@ -48,18 +48,18 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "userrole",
-            joinColumns = @JoinColumn(name = "username"), // Or "user_name" depending on your schema
+            joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name = "role_name")
     )
     private Set<Role> roles;
 
     @CreatedDate
     @Column(name = "date_created", nullable = false, updatable = false)
-    private OffsetDateTime dateCreated;
+    private LocalDateTime dateCreated;
 
     @LastModifiedDate
     @Column(name = "last_updated", nullable = false)
-    private OffsetDateTime lastUpdated;
+    private LocalDateTime lastUpdated;
 
     public User(String userName, String email, String password) {
         this.userName = userName;
@@ -78,13 +78,14 @@ public class User {
         this.accountNonLocked = true;
     }
 
+    // নিচের ২টি মেথড এখন auditing system নিজেই করে ফেলবে, চাইলে রাখতেই পারো fallback হিসাবে।
     @PrePersist
     void createdAt() {
-        this.dateCreated = this.lastUpdated = OffsetDateTime.now();
+        this.dateCreated = this.lastUpdated = LocalDateTime.now();
     }
 
     @PreUpdate
     void updatedAt() {
-        this.lastUpdated = OffsetDateTime.now();
+        this.lastUpdated = LocalDateTime.now();
     }
 }

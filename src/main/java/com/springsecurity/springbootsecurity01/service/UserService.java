@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,24 +46,24 @@ public class UserService {
     public void initRoleAndUser() {
 
         Role adminRole = new Role();
-        adminRole.setRoleName(ERole.ROLE_ADMIN.toString());
+        adminRole.setRoleName(ERole.ADMIN.toString());
         adminRole.setRoleDescription("Admin role");
-        adminRole.setDateCreated(OffsetDateTime.now());
-        adminRole.setLastUpdated(OffsetDateTime.now());
+        adminRole.setDateCreated(LocalDateTime.now());
+        adminRole.setLastUpdated(LocalDateTime.now());
         roleRepository.save(adminRole);
 
         Role userRole = new Role();
-        userRole.setRoleName(ERole.ROLE_USER.toString());
+        userRole.setRoleName(ERole.USER.toString());
         userRole.setRoleDescription("Default role for newly created record");
-        userRole.setDateCreated(OffsetDateTime.now());
-        userRole.setLastUpdated(OffsetDateTime.now());
+        userRole.setDateCreated(LocalDateTime.now());
+        userRole.setLastUpdated(LocalDateTime.now());
         roleRepository.save(userRole);
 
         Role roleMODERATOR = new Role();
         roleMODERATOR.setRoleName("ROLE_MODERATOR");
         roleMODERATOR.setRoleDescription("Default role for newly ROLE_MODERATOR record");
-        roleMODERATOR.setDateCreated(OffsetDateTime.now());
-        roleMODERATOR.setLastUpdated(OffsetDateTime.now());
+        roleMODERATOR.setDateCreated(LocalDateTime.now());
+        roleMODERATOR.setLastUpdated(LocalDateTime.now());
         roleRepository.save(roleMODERATOR);
 
 
@@ -72,8 +73,8 @@ public class UserService {
         adminUser.setUserFirstName("admin");
         adminUser.setUserLastName("admin");
         adminUser.setEmail("admin@gmail.com");
-        adminUser.setDateCreated(OffsetDateTime.now());
-        adminUser.setLastUpdated(OffsetDateTime.now());
+        adminUser.setDateCreated(LocalDateTime.now());
+        adminUser.setLastUpdated(LocalDateTime.now());
 
         Set<Role> adminRoles = new HashSet<>();
         adminRoles.add(adminRole);

@@ -1,20 +1,56 @@
-#springdoc:
-#  api-docs:
-#    path: /v3/api-docs
-#  swagger-ui:
-#    path: /swagger-ui.html
-  # ⚠️ নিচের info কাজ করবে না YAML-এ — এইটা Java Bean দিয়ে করতে হবে
-  # info:
-  #   title: My Custom API
-  #   description: This is a custom description for my API
-  #   version: 1.0.0
-
 server:
   port: 9091
 
 spring:
   application:
     name: Spring-Boot-Security-01
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 312087598141-s2pclefb7jktg8bjc81q9e6lb65tj73d.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - openid
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+          facebook:
+            client-id: 1291484355626599
+            client-secret: 1f71095fcad51158dc2f212795cad938
+            scope:
+              - email
+              - public_profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-name: Facebook
+            authorization-grant-type: authorization_code
+            client-authentication-method: post
+          github:
+            client-id: Ov23lirzuJF6GUl8aS5o
+            client-secret: 4cf4e3b4e7341be43e1307c4483640548e7425a7
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-name: GitHub
+            authorization-grant-type: authorization_code
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+          facebook:
+            authorization-uri: https://www.facebook.com/v15.0/dialog/oauth
+            token-uri: https://graph.facebook.com/v15.0/oauth/access_token
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture
+            user-name-attribute: id
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-name-attribute: login
 
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:spring_security}
@@ -34,3 +70,13 @@ app:
   jwt:
     secret: "this-is-a-very-secure-long-secret-key-for-hs256"
     expiration: 3600000 # in milliseconds (1 hour)
+
+debug: true
+
+twilio:
+  account:
+    sid: AC44e46488c35e0ea499db6338c799e502
+  auth:
+    token: 633527d58103140a005b860d844617d8
+  trial:
+    number: "+8801517037513"
