@@ -36,7 +36,7 @@ public class SecurityConfig {
                         // public auth endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         // allow OTP endpoints without auth
-                        .requestMatchers("/api/otp/**").permitAll()
+                        .requestMatchers("/api/otp/**").permitAll() // ✅ এইটা খুব গুরুত্বপূর্ণ
                         // role-based endpoints
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
@@ -45,15 +45,15 @@ public class SecurityConfig {
                         // everything else requires authentication
                         .anyRequest().authenticated()
                 )
-//                .oauth2Login(oauth2 -> oauth2
-//                        .authorizationEndpoint(authorization -> authorization
-//                                .baseUri("/oauth2/authorization")
-//                        )
-//                        .redirectionEndpoint(redirection -> redirection
-//                                .baseUri("/login/oauth2/code/*")
-//                        )
-//                        .defaultSuccessUrl("/api/auth/oauth2/success", true)
-//                )
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(authorization -> authorization
+                                .baseUri("/oauth2/authorization")
+                        )
+                        .redirectionEndpoint(redirection -> redirection
+                                .baseUri("/login/oauth2/code/*")
+                        )
+                        .defaultSuccessUrl("/api/auth/oauth2/success", true)
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

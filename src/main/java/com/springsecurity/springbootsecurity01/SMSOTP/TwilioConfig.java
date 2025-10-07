@@ -1,29 +1,21 @@
-package com.springsecurity.springbootsecurity01.SMSOTP;
+package com.springsecurity.springbootsecurity01.config;
 
+import com.twilio.Twilio;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Configuration
 public class TwilioConfig {
 
-    @Value("${twilio.account.sid}")
+    @Value("${twilio.account_sid}")
     private String accountSid;
 
-    @Value("${twilio.auth.token}")
+    @Value("${twilio.auth_token}")
     private String authToken;
 
-    @Value("${twilio.trial.number}")
-    private String trialNumber;
-
-    public String getAccountSid() {
-        return accountSid;
-    }
-
-    public String getAuthToken() {
-        return authToken;
-    }
-
-    public String getTrialNumber() {
-        return trialNumber;
+    @PostConstruct
+    public void init() {
+        Twilio.init(accountSid, authToken);
     }
 }

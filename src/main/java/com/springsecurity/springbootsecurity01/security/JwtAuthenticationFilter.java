@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // Skip OTP endpoints
+        // Skip OTP endpoints 
         if (path.startsWith("/api/otp/")) {
             filterChain.doFilter(request, response);
             return;

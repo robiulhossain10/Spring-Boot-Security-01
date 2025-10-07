@@ -74,9 +74,7 @@ app:
 debug: true
 
 twilio:
-  account:
-    sid: AC44e46488c35e0ea499db6338c799e502
-  auth:
-    token: 633527d58103140a005b860d844617d8
-  trial:
-    number: "+8801517037513"
+  account_sid: AC44e46488c35e0ea499db6338c799e502
+  auth_token: 633527d58103140a005b860d844617d8
+  service_sid: VAa278b5ff806611614ce11237543bd29e
+

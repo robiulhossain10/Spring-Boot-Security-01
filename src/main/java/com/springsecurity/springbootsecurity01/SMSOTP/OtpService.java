@@ -1,45 +1,37 @@
 package com.springsecurity.springbootsecurity01.SMSOTP;
 
 import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber; // ✅ ঠিক import
+import com.twilio.rest.verify.v2.service.Verification;
+import com.twilio.rest.verify.v2.service.VerificationCheck;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 @Service
 public class OtpService {
 
-    private final TwilioConfig twilioConfig;
-    private final Map<String, String> otpStorage = new HashMap<>();
+    @Value("${twilio.account_sid}")
+    private String accountSid;
 
-    public OtpService(TwilioConfig config) {
-        this.twilioConfig = config;
-    }
+    @Value("${twilio.auth_token}")
+    private String authToken;
+
+    @Value("${twilio.service_sid}")
+    private String serviceSid;
 
     @PostConstruct
-    public void initTwilio() {
-        Twilio.init(twilioConfig.getAccountSid(), twilioConfig.getAuthToken());
+    public void init() {
+        Twilio.init(accountSid, authToken);
     }
 
     public String sendOtp(String phone) {
-        String otp = String.valueOf(new Random().nextInt(899999) + 100000);
-        otpStorage.put(phone, otp);
+        String formattedPhone = phone.startsWith("+") ? phone : "+" + phone;
 
-        Message.creator(
-                new PhoneNumber(phone),                          // ✅ TO
-                new PhoneNumber(twilioConfig.getTrialNumber()), // ✅ FROM (Twilio number)
-                "Your OTP code is: " + otp
+        Verification verification = Verification.creator(
+                serviceSid,
+                formattedPhone,
+                "sms"
         ).create();
 
-        return otp;
-    }
-
-    public boolean verifyOtp(String phone, String otp) {
-        String storedOtp = otpStorage.get(phone);
-        return storedOtp != null && storedOtp.equals(otp);
+        return "OTP sent to " + formattedPhone;
     }
 }
